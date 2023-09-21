@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "928915225374",
+    "project_id": "recipeapprn-eb418",
+    "storage_bucket": "recipeapprn-eb418.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928915225374:android:f3828397a94dcc851be70f",
+        "android_client_info": {
+          "package_name": "com.beratgunes.recipeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV-i5FCcE_QhXf7PW0XKfcTvCGw7ehauQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
