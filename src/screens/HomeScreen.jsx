@@ -18,7 +18,7 @@ const getImageResources = (imageName) => {
     const staticImage = {
     'waffle' : require('../assets/images/waffle.png'),
     'burger' : require('../assets/images/burger.png'),
-    'chocake' : require('../assets/chocake.png'),
+    'chocake' : require('../assets/images/chocake.png'),
     'cake' : require('../assets/images/cake.png'),
     }
 
@@ -30,6 +30,16 @@ const getImageResources = (imageName) => {
 
 
 const HomeScreen = props => {
+
+    const navigateToSideMenuScreen = () => {
+        props.navigation.navigate("SideMenuScreen");
+    };
+    const navigateAllSeeScreen = () => {
+        props.navigation.navigate("SeeAllScreen");
+    };
+    const navigateRecommendedSeeAllScreen = () => {
+        props.navigation.navigate("RecommendedSeeAllScreen");
+    };
 
     const [recipe, setRecipe] = useState([
         {
@@ -78,7 +88,11 @@ const HomeScreen = props => {
         <View style={styles.container}>
             <View style={styles.ustIcon}>
                 <ArtiIcon />
+                <TouchableOpacity
+                onPress={navigateToSideMenuScreen}
+                >
                 <ListeleIcon />
+                </TouchableOpacity>
             </View>
             <View style={styles.wdTxtSyle}>
                 <Text style={styles.wdTxt1}>Welcome</Text>
@@ -98,7 +112,9 @@ const HomeScreen = props => {
             </View>
             <View style={styles.todaysRecipestyles}>
                 <Text style={styles.todaysRecipestylesTxt}>Today’s Fresh Recipe</Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={navigateAllSeeScreen}
+                >
                     <Text style={styles.todaysRecipestylesBtn}>See All</Text>
                 </TouchableOpacity>
             </View>
@@ -110,11 +126,24 @@ const HomeScreen = props => {
                         return (
                             <View style={styles.recipeFlatStyles}>
                                 <View style={styles.heartImageStyle}>
-                                    {
-                                        element.item.like == true ?
-                                            <HeartIcon /> :
-                                            <EmptyHeart />
-                                    }
+                                    <TouchableOpacity
+                                    onPress={() => {
+                                        setRecipe([
+                                            ...recipe.slice(0, element.index),
+                                            {
+                                                like: !element.item.like,
+                                                image: element.item.image,
+                                                category: element.item.category,
+                                                name:element.item.name,
+                                                time:element.item.time,
+                                                rating:element.item.rating,
+                                            },
+                                            ...recipe.slice(element.index + 1)
+                                        ])
+                                    }}
+                                    >
+                                        {element.item.like ? <HeartIcon/> : <EmptyHeart/>}
+                                    </TouchableOpacity>
                                     <Image style={styles.Image} source={getImageResources(element.item.image)}/>
                                 </View>
                                 <View style={styles.catTimeStyle}>
@@ -141,7 +170,9 @@ const HomeScreen = props => {
             </View>
             <View style={styles.recommended}>
                 <Text style={styles.recommendedTxt}>Recommended</Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={navigateRecommendedSeeAllScreen}
+                >
                     <Text style={styles.recommendedBtn}>See All</Text>
                 </TouchableOpacity>
             </View>
@@ -151,20 +182,24 @@ const HomeScreen = props => {
                 renderItem={element => {
                     return (
                         <View style={styles.recommendedContainer}>
-                            <Text>IMAGE</Text>
-                            <View>
-                                <Text></Text>
-                                <Text></Text>
+                            <Image style={styles.Image2} source={getImageResources(element.item.image)}/>
+                            <View style={styles.namePointStyle}>
+                                <Text
+                                style={styles.nameStyle2}
+                                >{element.item.name}</Text>
+                                <Text
+                                style={styles.pointStyle}
+                                >{element.item.point}</Text>
                             </View>
-                            <View>
+                            <View style={styles.recommendedHeart}>
                                 {
                                     element.item.like == true ?
                                         <HeartIcon /> :
                                         <EmptyHeart />
                                 }
-                                <View>
-                                    <Text></Text>
-                                    <Text></Text>
+                                <View style={styles.timeIconRow}>
+                                    <TimeIcon />
+                                    <Text style={styles.timeStyle2}>{element.item.time}</Text>
                                 </View>
                             </View>
                         </View>
@@ -303,6 +338,10 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 10,
     },
+    nameStyle2:{
+        color: "white",
+        fontSize: 18,
+    },
     timeIconStyle: {
         flexDirection: "row",
 
@@ -323,13 +362,39 @@ const styles = StyleSheet.create({
         backgroundColor: "#373737",
         borderRadius: 20,
         marginTop: 8,
+        justifyContent:"space-around"
     },
     recommendedFlatStyle: {
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        
     },
     Image:{
         height:96,
-        width:96
+        width:96,
+        marginLeft:32
+    },
+    Image2:{
+        height:54,
+        width:66,
+        marginTop:8
+    },
+    timeIconRow:{
+        flexDirection:"row",
+        
+    },
+    timeStyle2:{
+        color: "#FF6B00",
+        fontSize: 10,
+        marginLeft: 8
+    },
+    recommendedHeart:{
+        alignItems:"flex-end",
+        justifyContent:"space-around",
+        marginLeft:10,
+        marginTop:5
+    },
+    namePointStyle:{
+        justifyContent:"center"
     }
 })
 export default HomeScreen

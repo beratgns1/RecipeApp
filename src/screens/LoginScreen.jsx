@@ -8,26 +8,23 @@ import LinearGradient from "react-native-linear-gradient";
 import MailIcon from "../assets/icons/icons2";
 import PassIcon from "../assets/icons/icons3";
 import LogoIcon from "../assets/icons/icons4";
+import { auth } from "../utility/Firebase";
 
 const MMKV = new MMKVLoader().initialize()
 
-const LoginScreen = props => {
+const LoginScreen = ({navigation}) => {
 
     const [users, setUsers] = useMMKVStorage('users', MMKV, [])
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    
     const navigateToHomeScreen = () => {
-        users.forEach(element => {
-            if (username === element.isim && password === element.sifre) {
-                props.navigation.navigate("HomeScreen")
-            }
-        })
-    }
-
+        navigation.navigate("HomeScreen");
+    };
     
     const navigateToRegisterScreen = () => {
-        props.navigation.navigate("RegisterScreen");
+        navigation.navigate("RegisterScreen");
     };
 
     return (
@@ -64,7 +61,13 @@ const LoginScreen = props => {
                         </Text>
                     </View>
                     <TouchableOpacity style={styles.registerBtn}
-                    onPress={navigateToHomeScreen}>
+                    onPress={async () => {
+                        if (username.length > 0 && password.length > 0) {
+                            await auth().signInWithEmailAndPassword(username, password)
+                            console.log(auth().currentUser)
+                            if ( auth().currentUser) navigateToHomeScreen()
+                        }
+                    }}>
                         
                         <Text style={styles.registerStyles}>Login</Text>
                     </TouchableOpacity>

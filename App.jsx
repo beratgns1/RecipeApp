@@ -8,6 +8,10 @@ import LinearGradient from "react-native-linear-gradient";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import HomeScreen from "./src/screens/HomeScreen";
+import SideMenuScreen from "./src/screens/SideMenuScreen";
+import SeeAllScreen from "./src/screens/SeeAllScreen";
+import RecommendedSeeAllScreen from "./src/screens/RecommendedSeeAllScreen";
+import FavouriteScreen from "./src/screens/FavouriteScrenn";
 
 
 
@@ -23,6 +27,14 @@ const App = () => {
         component={LoginScreen} options={{headerShown: false}}/>
       <Stack.Screen name="HomeScreen" 
         component={HomeScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="SideMenuScreen" 
+        component={SideMenuScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="SeeAllScreen" 
+        component={SeeAllScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="RecommendedSeeAllScreen" 
+        component={RecommendedSeeAllScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="FavouriteScreen" 
+        component={FavouriteScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   </NavigationContainer>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet,Alert } from "react-native";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,25 +10,29 @@ import PassIcon from "../assets/icons/icons3";
 import EyeIcon from "../assets/icons/icons9";
 import CloseEyeIcon from "../assets/icons/icons10";
 
+import { auth } from "../utility/Firebase";
+
+
 import { MMKVLoader, useMMKVStorage } from "react-native-mmkv-storage";
 
 const MMKV = new MMKVLoader().initialize()
 
-const RegisterScreen = props => {
+const RegisterScreen = ({navigation}) => {
 
     const [users, setUsers] = useMMKVStorage('users', MMKV, [])
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [email, setEmail] = useState('')
 
-    const Register = () => {
-        setUsers([...users, {isim:username , sifre:password}])
-    }
+
 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordVisible2, setPasswordVisible2] = useState(false);
     const navigateToLoginScreen = () => {
-        props.navigation.navigate("LoginScreen");
+        navigation.navigate("LoginScreen");
     };
+
 
     return (
 
@@ -52,6 +56,8 @@ const RegisterScreen = props => {
                     <View style={styles.nameIconStyles}>
                         <MailIcon />
                         <TextInput
+                            onChangeText={setEmail}
+                            value={email}
                             style={styles.txtInPutStyles}
                             placeholder="Email Adress"
                             placeholderTextColor={"white"} />
@@ -79,6 +85,8 @@ const RegisterScreen = props => {
                     <View style={styles.nameIconStyles}>
                         <PassIcon />
                         <TextInput
+                            onChangeText={setConfirmPassword}
+                            value={confirmPassword}
                             secureTextEntry = {passwordVisible2}
                             style={styles.txtInPutStyles}
                             placeholder="Confirm Password"
@@ -96,7 +104,19 @@ const RegisterScreen = props => {
                     </View>
                 </View>
                 <TouchableOpacity style={styles.registerBtn}
-                onPress={Register}
+                onPress={async () => {
+                    try {
+                        if (confirmPassword === password && username.length > 0 && 
+                            email.length > 0 && password.length)
+                            {let result = await auth().createUserWithEmailAndPassword(email, password)
+                            auth().currentUser.sendEmailVerification()   
+                            console.log('result:', result)}
+                    }
+                    catch (error) {
+                        console.log(error)
+                        Alert.alert(error.code)
+                    }
+                }}
                 >
                     <Text style={styles.registerStyles}>Register</Text>
                 </TouchableOpacity>
