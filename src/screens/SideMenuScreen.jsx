@@ -22,13 +22,18 @@ const SideMenuScreen = props => {
         auth().signOut()
         props.navigation.navigate("FavouriteScreen");
     };
+    const navigateToProfileScreen = () => {
+        props.navigation.navigate("ProfileScreen");
+    };
     return (
         <View style={styles.container}>
             <View style={styles.picNameStyle}>
                 <Image style={styles.Image} source={require('../assets/images/denny.png')} />
                 <View style={styles.nameViewstyle}>
                     <Text style={styles.namestyle}>Denny</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={navigateToProfileScreen}
+                    >
                         <Text style={styles.Viewstyle}>View Profile</Text>
                     </TouchableOpacity>
                 </View>

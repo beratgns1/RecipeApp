@@ -12,6 +12,7 @@ import SideMenuScreen from "./src/screens/SideMenuScreen";
 import SeeAllScreen from "./src/screens/SeeAllScreen";
 import RecommendedSeeAllScreen from "./src/screens/RecommendedSeeAllScreen";
 import FavouriteScreen from "./src/screens/FavouriteScrenn";
+import ProfileScreen from "./src/screens/ProfileScreen";
 
 
 
@@ -35,6 +36,8 @@ const App = () => {
         component={RecommendedSeeAllScreen} options={{headerShown: false}}/>
         <Stack.Screen name="FavouriteScreen" 
         component={FavouriteScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="ProfileScreen" 
+        component={ProfileScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   </NavigationContainer>
   )
